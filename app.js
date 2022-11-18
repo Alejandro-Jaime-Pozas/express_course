@@ -39,13 +39,15 @@ app.get('/api/products/:productID/reviews/:reviewID', (req, res) => {
 app.get('/api/v1/query', (req, res) => {
     console.log(req.query);
     const { search, limit } = req.query
-    let sortedProducts = [...products]
+    let sortedProducts = [...products] // this creates a copy of products list
 
+    // if user inputs search param, return products starting w search term str
     if (search) {
         sortedProducts = sortedProducts.filter(product => {
             return product.name.startsWith(search)
         })
     }
+    // if user inputs limit param, return list of items based on the limit
     if (limit) {
         sortedProducts = sortedProducts.slice(0, Number(limit))
     }
