@@ -18,7 +18,7 @@ app.get('/api/products', (req, res) => {
 })
 
 // get a single product id by input specified by user request
-// /:productID the colon refers to the user's variable input
+// /:productID the colon refers to a placeholder before the user's input
 app.get('/api/products/:productID', (req, res) => {
     console.log(req.params)
     const { productID } = req.params
@@ -39,7 +39,8 @@ app.get('/api/products/:productID/reviews/:reviewID', (req, res) => {
     res.send('hello world')
 })
 
-// get a user query input for a product search, limit, and return limited search items
+// get a user query input for a product search, limit, and return limited searched items
+// after the url, a req.query is determined by ? character, separate queries w & character, then key/value pairs i.e. <url>?id=1&name=mike
 app.get('/api/v1/query', (req, res) => {
     console.log(req.query);
     const { search, limit } = req.query
@@ -57,6 +58,7 @@ app.get('/api/v1/query', (req, res) => {
     }
     if (sortedProducts.length < 1) {
         // res.status(200).send('no products matched your search')
+        // std res for empty searches is success status but empty array
         return res.status(200).json({success: true, data: []})
     }
     res.status(200).json(sortedProducts)
