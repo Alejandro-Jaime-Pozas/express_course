@@ -8,21 +8,25 @@ app.get('/', (req, res) => {
 
 app.get('/api/products', (req, res) => {
     const newProducts = products.map((product) => {
-        // you can map products list of objects and create a new object
+        // you can map the products list of objects and create a new object
         const {id, name, image} = product
         return {id, name, image }
     })
-    res.json(newProducts)
+    // return a json response of an object
+    // you should use return before res.<something> if it is conditional, if it's the last part of code no need for return
+    return res.json(newProducts)
 })
 
 // get a single product id by input specified by user request
+// /:productID the colon refers to the user's variable input
 app.get('/api/products/:productID', (req, res) => {
     console.log(req.params)
     const { productID } = req.params
-    // array method returns a found attribute
+    // .find array method returns a found attribute
     const singleProduct = products.find(
         (product) => product.id === Number(productID)
         )
+        // if there is no product found,
         if (!singleProduct){
             return res.status(404).send('Product does not exist')
         }
@@ -55,7 +59,6 @@ app.get('/api/v1/query', (req, res) => {
         // res.status(200).send('no products matched your search')
         return res.status(200).json({success: true, data: []})
     }
-    // you should use return before res.status if it is conditional, if it's the last part of code no need for return
     res.status(200).json(sortedProducts)
 
     // res.send('hello world 2')
